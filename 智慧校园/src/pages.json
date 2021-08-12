@@ -7,8 +7,9 @@
 				"navigationStyle": "custom"
 			}
 		}, {
-			"path": "pages/list/list",
+			"path": "pages/card/card",
 			"style": {
+				"navigationBarTitleText": "一卡通",
 				"navigationStyle": "custom"
 			}
 		},
@@ -18,9 +19,61 @@
 				"navigationBarTitleText":"我的",
 				"navigationStyle":"custom"
 			}
+		},
+		{
+			"path": "pages/find/find",
+			"style": {
+				"navigationBarTitleText":"发现",
+				"navigationStyle":"custom"
+			}
+		},
+		{
+			"path": "pages/test/test",
+			"style": {
+				"navigationBarTitleText":"测试页面",
+				"navigationStyle":"custom"
+			}
 		}
 	],
+	"tabBar": {
+		"color": "#989898",
+		"selectedColor": "#2988e6",
+		"borderStyle": "black",
+		"backgroundColor": "#ffffff",
+		"list": [{
+			"pagePath": "pages/index/index",
+			"iconPath": "static/image/sy_default.png",
+			"selectedIconPath": "static/image/sy_selected.png",
+			"text": "首页"
+		},
+		{
+			"pagePath": "pages/card/card",
+			"iconPath": "static/image/ykt_default.png",
+			"selectedIconPath": "static/image/ykt_selected.png",
+			"text": "一卡通"
+		},
+		 {
+			"pagePath": "pages/find/find",
+			"iconPath": "static/image/fx_default.png",
+			"selectedIconPath": "static/image/fx_selected.png",
+			"text": "发现"
+		},{
+			"pagePath": "pages/self/self",
+			"iconPath": "static/image/gr_default.png",
+			"selectedIconPath": "static/image/gr_selected.png",
+			"text": "我的"
+		}]
+	},
 	"easycom": {
 		"uni-(.*)": "@/components/uni-$1/uni-$1.vue"
-	}
+	},
+	"globalStyle": {
+        "navigationBarTextStyle": "black",
+        "navigationBarTitleText": "智慧校园",
+        "navigationBarBackgroundColor": "#F8F8F8",
+        "backgroundColor": "#F8F8F8",
+        "rpxCalcMaxDeviceWidth": 960,
+        "rpxCalcBaseDeviceWidth": 375,
+        "rpxCalcIncludeWidth": 750
+    }
 }

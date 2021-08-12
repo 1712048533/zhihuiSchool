@@ -8,7 +8,7 @@
 	export default {
 		data() {
 			return {
-				text: '列表数据'
+				text: '一卡通'
 			}
 		},
 		onLoad() {
