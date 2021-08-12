@@ -1,0 +1,8 @@
+{
+  "distPath": "./dist/build/h5",
+  "scripts": {
+    "dev": "npm run serve:mp-wecode",
+    "build": "npm run build:mp-wecode"
+  },
+  "projectName": "zhihuiSchool"
+}

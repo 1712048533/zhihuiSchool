@@ -1,0 +1,14 @@
+// Workspace settings
+{
+  // The following will hide the js and map files in the editor
+  "files.exclude": {
+    ".vscode": true,
+    "build": true,
+    ".eslintrc": true,
+    "setupProxy.js": true,
+    "ThirdPartyNotices.txt": true,
+    "wecode.json": true,
+    "LICENSE": true
+  },
+  "editor.renderIndentGuides": true
+}
