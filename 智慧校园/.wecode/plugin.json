@@ -1,6 +1,6 @@
 {
-    "indexURL": "h5://appId/index.html",
-    "appId": "",
-    "minSdkVersionName": "1.2.8",
-    "versionName": "1.0.0"
+  "indexURL": "h5://20210809152948000484106/index.html",
+  "appId": "20210809152948000484106",
+  "minSdkVersionName": "1.2.8",
+  "versionName": "1.0.0"
 }
