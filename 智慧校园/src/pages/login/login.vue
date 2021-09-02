@@ -45,60 +45,20 @@ export default {
              *      用户返回的数据应该包括用户的所有信息、验证code是否正确，验证access_token并返回给前端
              *      后端返回登陆是否成功，加上isLoginOk字段，值为true或者false
              */
+
             login(){
                 HWH5.showLoading();
-                HWH5.getAuthCode().then(data => {
-                    console.log('用户免登返回结果',data); 
-                    if(!(data.code.trim())){
-                        HWH5.showToast({ msg: '登陆异常，请重新进入小程序', type: 'w' });
-                        HWH5.hideLoading();
-                    }else{
-                        this.requestData(data.code);
-                    }
-
-                }).catch((error) => {
-                    console.log(error);
-                    HWH5.hideLoading();
-                    HWH5.showToast({ msg: '网络连接失败', type: 'w' });
-                });
-            },
-
-            // 发送第一次请求，目的是拿到access_token缓存到本地
-
-
-            requestData(code){
-
-                uni.request({
-                    url: 'http://localhost:8081/userLogin',
-                    data: {
-                        code:code
+                // 先请求后端获取access_token并缓存到本地
+                this.__proto__.__proto__.commonApi.userLogin(
+                    ()=>{ 
+                        HWH5.hideLoading(); 
+                        // 保存新到全局
+                        this.$store.commit('getLoginUserInfo',this.__proto__.__proto__.commonApi.commonData.userInfo);
+                        uni.switchTab({ url: '/pages/index/index' })
                     },
-                    method: 'POST',
-                    success: ({ data, statusCode, header }) => {
-                        if(statusCode >= 200 && statusCode<300){
-                            this.$store.dispatch('getLoginUserInfo',{...data})
-                            HWH5.setStorage({
-                              key: 'data_userInfo',
-                              data: {...data},
-                              isolation: 0 
-                            }).catch((error) => {
-                              console.log('设置缓存异常', error);
-                              HWH5.showToast({ msg: '内存空间不足', type: 'w' });
-                              return;
-                            });
-                            HWH5.showToast({ msg: '登陆成功', type: 'n' });
-                            uni.switchTab({ url: '/pages/index/index' })
-                        }else{
-                            HWH5.showToast({ msg: '网络连接失败', type: 'w' });
-                        }
-                    },
-                    fail: (error) => {
-                        HWH5.showToast({ msg: '网络连接失败', type: 'w' });
-                    },
-                    complete:res=>{
-                        HWH5.hideLoading();
-                    }
-                })
+                    ()=>{ HWH5.hideLoading(); uni.navigateTo({ url: '/pages/login/login' })}
+				)
+
             }
         }
 }

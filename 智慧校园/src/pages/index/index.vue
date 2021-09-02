@@ -19,11 +19,17 @@
 		methods: {
 			isLogin(){
 				HWH5.getStorage({ 
-				 key: 'data_userInfo', 
+				 key: 'access_token', 
 				}).then((data) => {
-					console.log(data)
-					if(!data){
+					if(!data || !data['access_token']){
 						uni.navigateTo({ url: '/pages/login/login' })
+					}else{
+						if(this.__proto__.__proto__.commonApi.commonData.userInfo['isActivited'])
+							return;
+						this.__proto__.__proto__.commonApi.userLogin(
+							()=>{ HWH5.hideLoading();},
+							()=>{ HWH5.hideLoading();uni.navigateTo({ url: '/pages/login/login' })}
+						)
 					}
 				})
 			}

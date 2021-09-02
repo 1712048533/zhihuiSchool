@@ -57,6 +57,24 @@
 				"navigationBarTitleText":"设置",
 				"navigationStyle":"custom"
 			}
+		},{
+			"path": "pages/workItem/workItem",
+			"style": {
+				"navigationBarTitleText":"创建直播室/会议室",
+				"navigationStyle":"custom"
+			}
+		},{
+			"path": "pages/work_list/work_list",
+			"style": {
+				"navigationBarTitleText":"数据列表",
+				"navigationStyle":"custom"
+			}
+		},{
+			"path": "pages/work_content/work_content",
+			"style": {
+				"navigationBarTitleText":"房间",
+				"navigationStyle":"custom"
+			}
 		}
 	],
 	"tabBar": {

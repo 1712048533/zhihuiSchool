@@ -45,6 +45,37 @@
 				</view>
 			</view>
 		</view>
+
+		<view v-show="!isShowSearchView && !isShowResultView" class="work-view_content">
+			<!-- 第一层内容 -->
+			<view class="work-view_top">
+				<view class="work-view_top_name" @click="workRoomHandler('create')">创建直播/会议</view>
+			</view>
+
+			<!-- 第二层内容 -->
+			<view class="work-view_mid">
+				<view class="work-view_mid_name" @click="workRoomHandler('search')">加入直播/会议</view>
+			</view>
+
+			<!-- 第三层内容 -->
+			<view class="work-view_bottom">
+				<view class="work-view_bottom_name" @click="workRoomHandler('update')">管理直播/会议</view>
+			</view>
+		</view>
+		<uni-popup ref="workRef" type="dialog">
+			<uni-popup-dialog
+				type="info"
+				mode="input"
+				placeholder="输入待查询的id"
+				@confirm="searchWorkRoom"
+			/>
+		</uni-popup>
+		<uni-popup ref="messageRef" type="message">
+			<uni-popup-message
+				type="error"
+				:message="tip_message"
+			/>
+		</uni-popup>
 	</view>
 </template>
 
@@ -55,6 +86,7 @@
 				isShowSearchView:false,
 				isShowResultView:false,
 				searchText:'',
+				tip_message:'',
 				resultArray: [{
 								text:'奇怪',
 								sufflex_url:'11'
@@ -136,18 +168,6 @@
 						break;
 					default: break;
 				}
-			},
-
-			// 输入内容并按下搜索键的调用方法，包括对历史搜索重点击的回调
-			searchByText(text){
-				
-				this.showSearchView = false;
-				this.isShowResultView = true;
-				
-				//记录历史搜索
-				
-				//跳转详情页面
-
 			},
 
 			updateResultArray(type,text){
@@ -250,6 +270,49 @@
 						}
 					}
 				})
+			},
+			//直播（会议）操作
+			workRoomHandler(type){
+				switch (type) {
+					case 'create':
+						uni.navigateTo({ url: '/pages/workItem/workItem?oprType=create' });
+						break;
+					case 'search':
+						this.$refs.workRef.open();
+						break;
+					case 'update':
+						uni.navigateTo({ url: '/pages/workItem/workItem?oprType=update' })
+						break;
+				}
+			},
+			//搜索房间回调
+			searchWorkRoom(roomId){
+				console.log(roomId)
+				// 向后端发起请求，查询该房间是否存在
+				HWH5.showLoading();
+				uni.request({
+					url: 'http://localhost:8081/findWorkById',
+					data: { roomId },
+					header: {
+						'Content-Type': 'application/json;charset=utf-8',
+					},
+					method: 'POST',
+					timeout:12000,
+					success: res => {
+						HWH5.hideLoading();
+						if(res.data==='null'){
+							this.tip_message = "该房间ID不存在"
+							this.$refs.messageRef.open();
+						}else {
+							uni.navigateTo({ url: '/pages/work_content/work_content?roomId='+roomId });
+						}
+					},
+					fail: error => {
+						HWH5.hideLoading();
+						this.tip_message = "网络异常"
+						this.$refs.messageRef.open();
+					},
+				})
 			}
 		}
 	}
@@ -327,5 +390,41 @@
 		font-size: 28rpx;
 		border-radius: 999999px;
 		margin-right: 40rpx;
+	}
+	.work-view_content{
+		width: 100%;
+		display: -webkit-flex;
+		flex-direction: column;
+		align-items: center;
+		color: #fff;
+		font-size: 50rpx;
+	}
+	.work-view_top,.work-view_mid,.work-view_bottom{
+		width: 90%;
+		height: 150rpx;
+		border-radius: 20rpx;
+		margin-top: 70rpx;
+		line-height: 150rpx;
+		text-align: center;
+		transform: skew(20deg);
+		transition: 0.2s linear;
+		-webkit-transition: 0.2s linear;
+		-moz-transition: 0.2s linear;
+	}
+	.work-view_top:hover,.work-view_mid:hover,.work-view_bottom:hover{
+		cursor: pointer;
+		transform: skewX(0deg);
+	}
+	.work-view_top:active,.work-view_mid:active,.work-view_bottom:active{
+		transform: skewX(0deg);
+	}
+	.work-view_top{
+		background: linear-gradient(45deg,#05fab1,#0577fa);
+	}
+	.work-view_mid{
+		background: linear-gradient(45deg,#fa05057a,#facd05);
+	}
+	.work-view_bottom{
+		background: linear-gradient(45deg,#b505fa,#fa0577);
 	}
 </style>

@@ -15,6 +15,7 @@ const actions = {
 };
 
 const mutations = {
+
     changeAvatarRadius(state,value){
         state.settings.isAvatarRadius = !state.settings.isAvatarRadius
     },
@@ -33,10 +34,13 @@ const state = {
         isAvatarRadius : true
     }
 };
-
+// 通过this.$store.getters.getUserInfo 获取用户信息
 const getters = {
     getAvatarRaduis(state){
-        return state.settings.isAvatarRadius
+        return state.settings.isAvatarRadius;
+    },
+    getUserInfo(state){
+        return state.userInfo;
     }
 };
 
